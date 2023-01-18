@@ -1,0 +1,21 @@
+// Classes Exercise 1: Dart Classes
+// 
+// 1. Create a class called **Car**.
+//
+// 2. Add the following properties to the class:
+//    - model
+//    - color
+//    - productionYear
+//
+// 3. Create a constructor that takes the model, color, and productionYear as parameters.
+//
+// 4. Create a method called **printInfo** that prints the car's information.
+//
+// 5. Create an object from the Car class.
+//
+// 6. Print the model of the car.
+//
+// 7. Print the color of the car.
+//
+// 8. Print the productionYear of the car.
+//
