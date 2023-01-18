@@ -22,6 +22,7 @@ void main(List<String> args) {
 }
 
 //2. Antoher Example
+//Note The arrow (=>) syntax is shorthand for { return expr; }.
 void main(List<String> args) {
   // Anonymous function
   var sumNumbers = (int a, int b) => a + b;
