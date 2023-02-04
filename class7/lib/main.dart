@@ -2,17 +2,58 @@ import 'package:class7/todoitem.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp( TodoApp());
+  runApp( MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: TodoApp(),
+  ));
 }
 
-class TodoApp extends StatelessWidget {
+class TodoApp extends StatefulWidget {
+
   const TodoApp({Key? key}) : super(key: key);
 
+
+
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
+  final List todoList=[
+    ["Make Tutorial", false],
+    ["Do Exercise", false],
+  ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+
+    TextEditingController taskController=TextEditingController();
+
+    void addnewTask() {
+      setState(() {
+        todoList.add([taskController.text,false]);
+        print(todoList);
+      });
+      Navigator.of(context).pop();
+
+
+    }
+    checkDoneTask(int index)
+    {
+      setState(() {
+        todoList[index][1]=!todoList[index][1];
+      });
+    }
+
+    deleteTask(int index)
+    {
+      setState(() {
+        todoList.removeAt(index);
+      });
+    }
+
+
+
+    return Scaffold(
         backgroundColor:  Color(0xFFEEEFFF),
         appBar:AppBar(
           backgroundColor: const Color(0xFFEEEFF5),
@@ -36,7 +77,7 @@ class TodoApp extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(10),
-                
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20)
@@ -47,26 +88,40 @@ class TodoApp extends StatelessWidget {
                     prefixIcon: Icon(Icons.search,color: Colors.black,size: 20,),
                     hintText: 'Search'
                   ),
-                  
+
                 ),
               ),
               Expanded(
 
-                child: ListView(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top:50,bottom: 20 ),
-                      child: Text("All To Do's",style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.bold),),
-                    ),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem()
+                child: ListView.builder(
 
-                  ],
+                  itemCount: todoList.length,
+                  itemBuilder: (context,index)
+                  {
+                    return  Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: ListTile(
+                          onTap: () {
+                            checkDoneTask(index);
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          tileColor: Colors.white,
+                          leading:  todoList[index][1]?  Icon(Icons.check_box, color: Colors.blueAccent,):Icon(Icons.check_box_outline_blank),
+                          title: Text(todoList[index][0],
+                            style: TextStyle(fontSize: 15, color: Colors.black),),
+                          trailing: IconButton(
+                            onPressed: () {
+                             deleteTask(index);
+                            }, icon: Icon(Icons.delete, color: Colors.red),
+
+                          ),
+                        )
+
+
+                    );
+                  }
+
+
 
                 ),
               )
@@ -74,7 +129,81 @@ class TodoApp extends StatelessWidget {
             ],
           ),
         ),
-      ),
+
+        floatingActionButton: FloatingActionButton(onPressed: (){
+          showModalBottomSheet(
+              elevation: 10,
+              context: context,
+              builder: (context)
+              {
+
+
+            return Container(
+              padding: EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 15),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.black12
+                    ),
+                    child:  TextField(
+                      controller: taskController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(labelText: 'Task'),
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          width: 150,
+                          height: 50,
+                          color: Colors.deepOrangeAccent,
+                          child: MaterialButton(
+
+                              onPressed: () {
+
+                                addnewTask();
+                                print(todoList.length);
+                              }, child: const Text('Add Task',style: TextStyle(color: Colors.white,fontSize: 20),))
+
+                      ),
+                      Container(
+                          width: 150,
+                          height: 50,
+                          color: Colors.deepOrangeAccent,
+                          child: MaterialButton(
+
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }, child: const Text('Cancel',style: TextStyle(color: Colors.white,fontSize: 20),))
+
+                      )
+                    ],
+                  )
+
+                ],
+
+
+              ),
+            );
+          }
+
+          );
+        },child: Icon(Icons.add),),
+
     );
   }
 }
+
+
