@@ -44,6 +44,13 @@ class _TodoAppState extends State<TodoApp> {
       });
     }
 
+    deleteTask(int index)
+    {
+      setState(() {
+        todoList.removeAt(index);
+      });
+    }
+
 
 
     return Scaffold(
@@ -104,7 +111,7 @@ class _TodoAppState extends State<TodoApp> {
                             style: TextStyle(fontSize: 15, color: Colors.black),),
                           trailing: IconButton(
                             onPressed: () {
-                              print(todoList.length);
+                             deleteTask(index);
                             }, icon: Icon(Icons.delete, color: Colors.red),
 
                           ),
