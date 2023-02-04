@@ -8,11 +8,44 @@ void main() {
   ));
 }
 
-class TodoApp extends StatelessWidget {
+class TodoApp extends StatefulWidget {
+
   const TodoApp({Key? key}) : super(key: key);
 
+
+
+  @override
+  State<TodoApp> createState() => _TodoAppState();
+}
+
+class _TodoAppState extends State<TodoApp> {
+  final List todoList=[
+    ["Make Tutorial", false],
+    ["Do Exercise", false],
+  ];
   @override
   Widget build(BuildContext context) {
+
+    TextEditingController taskController=TextEditingController();
+
+    void addnewTask() {
+      setState(() {
+        todoList.add([taskController.text,false]);
+        print(todoList);
+      });
+      Navigator.of(context).pop();
+
+
+    }
+    checkDoneTask(int index)
+    {
+      setState(() {
+        todoList[index][1]=!todoList[index][1];
+      });
+    }
+
+
+
     return Scaffold(
         backgroundColor:  Color(0xFFEEEFFF),
         appBar:AppBar(
@@ -53,21 +86,35 @@ class TodoApp extends StatelessWidget {
               ),
               Expanded(
 
-                child: ListView(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top:50,bottom: 20 ),
-                      child: Text("All To Do's",style: TextStyle(color: Colors.black,fontSize: 24,fontWeight: FontWeight.bold),),
-                    ),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem(),
-                    TodoItem()
+                child: ListView.builder(
 
-                  ],
+                  itemCount: todoList.length,
+                  itemBuilder: (context,index)
+                  {
+                    return  Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        child: ListTile(
+                          onTap: () {
+                            checkDoneTask(index);
+                          },
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          tileColor: Colors.white,
+                          leading:  todoList[index][1]?  Icon(Icons.check_box, color: Colors.blueAccent,):Icon(Icons.check_box_outline_blank),
+                          title: Text(todoList[index][0],
+                            style: TextStyle(fontSize: 15, color: Colors.black),),
+                          trailing: IconButton(
+                            onPressed: () {
+                              print(todoList.length);
+                            }, icon: Icon(Icons.delete, color: Colors.red),
+
+                          ),
+                        )
+
+
+                    );
+                  }
+
+
 
                 ),
               )
@@ -97,7 +144,8 @@ class TodoApp extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.black12
                     ),
-                    child: const TextField(
+                    child:  TextField(
+                      controller: taskController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(labelText: 'Task'),
                     ),
@@ -116,7 +164,11 @@ class TodoApp extends StatelessWidget {
                           color: Colors.deepOrangeAccent,
                           child: MaterialButton(
 
-                              onPressed: () {}, child: const Text('Add Task',style: TextStyle(color: Colors.white,fontSize: 20),))
+                              onPressed: () {
+
+                                addnewTask();
+                                print(todoList.length);
+                              }, child: const Text('Add Task',style: TextStyle(color: Colors.white,fontSize: 20),))
 
                       ),
                       Container(
@@ -146,3 +198,5 @@ class TodoApp extends StatelessWidget {
     );
   }
 }
+
+
