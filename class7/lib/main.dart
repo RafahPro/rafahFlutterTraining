@@ -2,7 +2,10 @@ import 'package:class7/todoitem.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp( TodoApp());
+  runApp( MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: TodoApp(),
+  ));
 }
 
 class TodoApp extends StatelessWidget {
@@ -10,9 +13,7 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor:  Color(0xFFEEEFFF),
         appBar:AppBar(
           backgroundColor: const Color(0xFFEEEFF5),
@@ -36,7 +37,7 @@ class TodoApp extends StatelessWidget {
             children: [
               Container(
                 padding: EdgeInsets.all(10),
-                
+
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20)
@@ -47,7 +48,7 @@ class TodoApp extends StatelessWidget {
                     prefixIcon: Icon(Icons.search,color: Colors.black,size: 20,),
                     hintText: 'Search'
                   ),
-                  
+
                 ),
               ),
               Expanded(
@@ -74,7 +75,74 @@ class TodoApp extends StatelessWidget {
             ],
           ),
         ),
-      ),
+
+        floatingActionButton: FloatingActionButton(onPressed: (){
+          showModalBottomSheet(
+              elevation: 10,
+              context: context,
+              builder: (context)
+              {
+
+
+            return Container(
+              padding: EdgeInsets.only(
+                  top: 15,
+                  left: 15,
+                  right: 15,
+                  bottom: MediaQuery.of(context).viewInsets.bottom + 15),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: Colors.black12
+                    ),
+                    child: const TextField(
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(labelText: 'Task'),
+                    ),
+                  ),
+
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          width: 150,
+                          height: 50,
+                          color: Colors.deepOrangeAccent,
+                          child: MaterialButton(
+
+                              onPressed: () {}, child: const Text('Add Task',style: TextStyle(color: Colors.white,fontSize: 20),))
+
+                      ),
+                      Container(
+                          width: 150,
+                          height: 50,
+                          color: Colors.deepOrangeAccent,
+                          child: MaterialButton(
+
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              }, child: const Text('Cancel',style: TextStyle(color: Colors.white,fontSize: 20),))
+
+                      )
+                    ],
+                  )
+
+                ],
+
+
+              ),
+            );
+          }
+
+          );
+        },child: Icon(Icons.add),),
+
     );
   }
 }
