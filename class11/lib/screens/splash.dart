@@ -32,7 +32,8 @@ class _SplashScreenState extends State<SplashScreen> {
             Container(
               child: Icon(Icons.face_retouching_natural,size: 150,color: Colors.deepOrangeAccent,),
             ),
-            Text('أهلاً وسهلاً بكم',style: GoogleFonts.tajawal(fontSize: 30),)
+            Text('أهلاً وسهلاً بكم',style: GoogleFonts.tajawal(fontSize: 30),),
+            CircularProgressIndicator(color: Colors.brown,)
           ],
         )
       ),
