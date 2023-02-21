@@ -1,3 +1,4 @@
+import 'package:class13/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -40,7 +41,9 @@ class WelcomeScreen extends StatelessWidget {
               color: Colors.red,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-                onPressed: () {},
+                onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=>HomeScreen()));
+                },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +55,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     // SizedBox(width: 10,),
                     Icon(
-                      Icons.arrow_forward_ios_rounded,
+                      Icons.arrow_forward_ios_outlined,
                       size: 18,color: Colors.white,
                     )
                   ],
