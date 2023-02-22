@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'item_screen.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -151,11 +153,16 @@ class HomeScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)
 
                     ),
-                    child: Column(
-                      children: [
-                        Image.asset('assets/images/${foods[index]}.png',height: 80,width: 80,),
-                        Text(foods[index],style: const TextStyle(color: Colors.black54,fontSize:16,fontWeight: FontWeight.bold),)
-                      ],
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemScreen()));
+                      },
+                      child: Column(
+                        children: [
+                          Image.asset('assets/images/${foods[index]}.png',height: 80,width: 80,),
+                          Text(foods[index],style: const TextStyle(color: Colors.black54,fontSize:16,fontWeight: FontWeight.bold),)
+                        ],
+                      ),
                     ),
                   );
                 }),
