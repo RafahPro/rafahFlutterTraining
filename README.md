@@ -1,8 +1,8 @@
 # Rafah Directorate of Education - Flutter Course
 
-#Introductory Course in Mobile Application Using Dart and Flutter
+## Introductory Course in Mobile Application Using Dart and Flutter
 
-# Instructor: Ahmed S. Hammad
+Instructor: Ahmed S. Hammad
 
 
-##2022/2023
+2022/2023
