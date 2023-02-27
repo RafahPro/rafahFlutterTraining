@@ -61,8 +61,8 @@ class _HomeScreenState extends State<HomeScreen> {
               _launchMap('https://www.google.com/maps/search/?api=1&query=${lat},${long}');
               //
               //
-              // //String url = 'https://www.google.com/maps/search/?api=1&query=${location.getLocation()}';
-              // String url='https://www.google.com/maps/search/?api=1&query=31.29688675,34.2439765';
+              // 
+              // String url='https://www.google.com/maps/search/?api=1&query=${lat},${long}';
               // var uri = Uri.parse(url);
               // if (await canLaunchUrl(uri)) {
               //   await launchUrl(uri);
