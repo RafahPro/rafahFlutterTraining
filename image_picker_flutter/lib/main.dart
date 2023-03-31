@@ -1,8 +1,14 @@
-import 'dart:io';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-void main() => runApp(const MyApp());
+import 'package:image_picker_flutter/my_image_picker.dart';
+
+late List<CameraDescription>? _cameras;
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  _cameras=await availableCameras();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -12,47 +18,57 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  File? _image;
-  final ImagePicker picker = ImagePicker();
-  void _chooseImage() async{
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = File(image!.path);
-    });
-  }
-  void _captureImage() async{
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _image = File(image!.path);
+  late CameraController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = CameraController(_cameras![0], ResolutionPreset.max);
+    controller.initialize().then((_) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
+    }).catchError((Object e) {
+      if (e is CameraException) {
+        switch (e.code) {
+          case 'CameraAccessDenied':
+          // Handle access errors here.
+            break;
+          default:
+          // Handle other errors here.
+            break;
+        }
+      }
     });
   }
 
-
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter Picker'),
-        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children:  <Widget>[
-              _image!=null? Image.file(_image!):const Icon(Icons.image,size: 150,),
-            ElevatedButton(
-              onPressed: (){_chooseImage();},
-              onLongPress: (){_captureImage();},
-              child: const Text('Pick/Capture Image'),
-            ),
-
+            children: <Widget>[
+              CameraPreview(controller),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MyImagePicker()));
+                  },
+                  child: const Text('Pick/Capture Image')),
             ],
           ),
         ),
-
       ),
     );
   }
-
-
 }
